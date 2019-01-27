@@ -12,5 +12,7 @@ namespace ThisNetWorks.OrchardCore.Seo.Sitemapper.Models
         public float Priority { get; set; } = 0.5f;
 
         public bool Exclude { get; set; }
+
+        public SitemapPartSettings Settings { get; set; }
     }
 }

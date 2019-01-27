@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using OrchardCore.ContentManagement.Handlers;
 using ThisNetWorks.OrchardCore.Seo.Sitemapper.Models;
 
