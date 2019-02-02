@@ -1,0 +1,20 @@
+@model ThisNetWorks.OrchardCore.Seo.Meta.ViewModels.SeoMetaPartViewModel
+<fieldset>
+    <legend>@T["Seo Meta"]</legend>
+    <div class="form-group" asp-validation-class-for="PageTitle">
+        <label asp-for="PageTitle">@T["Page Title"] </label>
+        <input asp-for="PageTitle" class="form-control content-preview-text" />
+        <span class="hint">@T["Override the default generated web browser page title (recommended to keep under 70 characters)."]</span>
+    </div>
+    <div class="form-group" asp-validation-class-for="MetaDescription">
+        <label asp-for="MetaDescription">@T["Meta Description"] </label>
+        <input asp-for="MetaDescription" class="form-control content-preview-text" />
+        <span class="hint">@T["The meta description to render for this page"]</span>
+    </div>
+
+    <div class="form-group" asp-validation-class-for="MetaKeywords">
+        <label asp-for="MetaKeywords">@T["Meta Keywords"] </label>
+        <input asp-for="MetaKeywords" class="form-control content-preview-text" />
+        <span class="hint">@T["The meta keywords to render for this page"]</span>
+    </div>
+</fieldset>
