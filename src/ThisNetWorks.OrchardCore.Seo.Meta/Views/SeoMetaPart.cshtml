@@ -10,6 +10,14 @@
             seoPageTitleBuilder.SetTitle(Model.PageTitle);
         }
     }
-}
 
-@*<p>@Model.PageTitle</p>*@
+    if (!String.IsNullOrEmpty(Model.MetaDescription))
+    {
+        <meta asp-name="description" content="@Model.MetaDescription" />
+    }
+
+    if (!String.IsNullOrEmpty(Model.MetaKeywords))
+    {
+        <meta asp-name="keywords" content="@Model.MetaDescription" />
+    }
+}
