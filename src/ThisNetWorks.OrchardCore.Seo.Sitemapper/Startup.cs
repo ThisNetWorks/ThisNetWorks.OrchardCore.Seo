@@ -11,7 +11,6 @@ using OrchardCore.ContentTypes.Editors;
 using OrchardCore.Data.Migration;
 using OrchardCore.Modules;
 using ThisNetWorks.OrchardCore.Seo.Sitemapper.Drivers;
-using ThisNetWorks.OrchardCore.Seo.Sitemapper.Handlers;
 using ThisNetWorks.OrchardCore.Seo.Sitemapper.Models;
 using ThisNetWorks.OrchardCore.Seo.Sitemapper.Providers;
 using ThisNetWorks.OrchardCore.Seo.Sitemapper.Settings;
@@ -26,7 +25,6 @@ namespace ThisNetWorks.OrchardCore.Seo.Sitemapper
 
             services.AddScoped<IContentPartDisplayDriver, SitemapPartDisplay>();
             services.AddSingleton<ContentPart, SitemapPart>();
-            services.AddScoped<IContentPartHandler, SitemapPartHandler>();
             services.AddScoped<IContentTypePartDefinitionDisplayDriver, SitemapPartSettingsDisplayDriver>();
 
             services.AddScoped<ISitemapProvider, AutorouteSitemapProvider>();

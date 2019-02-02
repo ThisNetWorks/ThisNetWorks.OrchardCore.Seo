@@ -65,10 +65,17 @@ namespace ThisNetWorks.OrchardCore.Seo.Sitemapper.Providers
 
                 var changeFrequency = sitemapPart != null ? sitemapPart.ChangeFrequency : ChangeFrequency.Daily;
                 var priority = sitemapPart != null ? sitemapPart.Priority : 0.5f;
-                
+
+                string path = autoroutePart.Path;
+                if (!String.IsNullOrEmpty(path))
+                {
+                    path = path.StartsWith("/") ? path : path.Insert(0, "/");
+                    path = path.StartsWith("~/") ? path.Replace("~", String.Empty) : path;
+                }
+
                 var urlItem = new SitemapUrlItem()
                 {
-                    Location = _urlHelper.ToAbsoluteUrl(autoroutePart.Path),
+                    Location = _urlHelper.ToAbsoluteUrl(path),
                     ChangeFrequency = changeFrequency.ToString().ToLower(),
                     Priority = priority,
                     LastModified = item.ModifiedUtc.GetValueOrDefault().ToString("yyyy-MM-ddTHH:mm:sszzz")

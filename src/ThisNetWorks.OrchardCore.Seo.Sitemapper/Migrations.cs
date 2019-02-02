@@ -20,7 +20,7 @@ namespace ThisNetWorks.OrchardCore.Seo.Sitemapper
         {
             _contentDefinitionManager.AlterPartDefinition("SitemapPart", builder => builder
                 .Attachable()
-                .WithDescription("Provides a part allows sitemap settings on a content item."));
+                .WithDescription("Provides a part that allows sitemap settings on a content item."));
 
             return 1;
         }
