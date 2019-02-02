@@ -21,7 +21,6 @@ namespace ThisNetWorks.OrchardCore.Seo.Sitemapper.Providers
     public class AutorouteSitemapProvider : ISitemapProvider
     {
         private readonly YesSql.ISession _session;
-        //private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUrlHelper _urlHelper;
 
         public AutorouteSitemapProvider(
@@ -32,10 +31,7 @@ namespace ThisNetWorks.OrchardCore.Seo.Sitemapper.Providers
         {
             Logger = logger;
             _session = session;
-            //_httpContextAccessor = httpContextAccessor;
             _urlHelper = urlHelperFactory.GetUrlHelper(new ActionContext(httpContextAccessor.HttpContext, new RouteData(), new ActionDescriptor()));
-
-
         }
 
         public ILogger<AutorouteSitemapProvider> Logger { get; }
@@ -44,15 +40,10 @@ namespace ThisNetWorks.OrchardCore.Seo.Sitemapper.Providers
         {
             var sitemapUrlItems = new List<SitemapUrlItem>();
 
-            var query = _session.Query<ContentItem>()
-                .With<AutoroutePartIndex>(x => x.Published)
-                .With<ContentItemIndex>(x => x.Published)
-                .OrderByDescending(x => x.ModifiedUtc);
-                //TODO - need to understand if this is an exclusive with (ie only get if has sitemap index, or an outer join, i.e. null if no SitemapPart)
-                //.With<SitemapPartIndex>
-                
+            var items = await _session
+                .Query<ContentItem, AutoroutePartIndex>(x => x.Published)
+                .ListAsync();
 
-            var items = await query.ListAsync();
             foreach(var item in items)
             {
                 var autoroutePart = item.As<AutoroutePart>();
