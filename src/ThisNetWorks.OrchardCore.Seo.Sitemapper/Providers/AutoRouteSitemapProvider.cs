@@ -15,6 +15,8 @@ using OrchardCore.ContentManagement.Records;
 using ThisNetWorks.OrchardCore.Seo.Sitemapper.Models;
 using YesSql;
 using OrchardCore.Mvc.Core.Utilities;
+using OrchardCore.ContentManagement.Metadata;
+using System.Linq;
 
 namespace ThisNetWorks.OrchardCore.Seo.Sitemapper.Providers
 {
@@ -22,16 +24,19 @@ namespace ThisNetWorks.OrchardCore.Seo.Sitemapper.Providers
     {
         private readonly YesSql.ISession _session;
         private readonly IUrlHelper _urlHelper;
+        private readonly IContentDefinitionManager _contentDefinitionManager;
 
         public AutorouteSitemapProvider(
-            ILogger<AutorouteSitemapProvider> logger
-            , YesSql.ISession session
-            , IHttpContextAccessor httpContextAccessor
-            , IUrlHelperFactory urlHelperFactory)
+            ILogger<AutorouteSitemapProvider> logger,
+            YesSql.ISession session,
+            IHttpContextAccessor httpContextAccessor,
+            IUrlHelperFactory urlHelperFactory,
+            IContentDefinitionManager contentDefinitionManager)
         {
             Logger = logger;
             _session = session;
             _urlHelper = urlHelperFactory.GetUrlHelper(new ActionContext(httpContextAccessor.HttpContext, new RouteData(), new ActionDescriptor()));
+            _contentDefinitionManager = contentDefinitionManager;
         }
 
         public ILogger<AutorouteSitemapProvider> Logger { get; }
@@ -48,17 +53,19 @@ namespace ThisNetWorks.OrchardCore.Seo.Sitemapper.Providers
             {
                 var autoroutePart = item.As<AutoroutePart>();
                 var sitemapPart = item.As<SitemapPart>();
-
-                //TODO get content definition settings (cache?) for general exclusion settings
-                var exclude = sitemapPart != null ? (sitemapPart.Exclude) : false;
-
+                
+                var exclude = sitemapPart != null ? sitemapPart.Exclude : false;
+                if (!exclude)
+                {
+                    var sitemapPartSettings = GetSettings(sitemapPart);
+                    exclude = sitemapPartSettings != null ? sitemapPartSettings.ExcludePart : false;
+                }
                 if (exclude)
                     continue;
 
                 var changeFrequency = sitemapPart != null ? sitemapPart.ChangeFrequency : ChangeFrequency.Daily;
                 var priority = sitemapPart != null ? sitemapPart.Priority : 0.5f;
-
-                //urlhelper for this
+                
                 var urlItem = new SitemapUrlItem()
                 {
                     Location = _urlHelper.ToAbsoluteUrl(autoroutePart.Path),
@@ -69,6 +76,16 @@ namespace ThisNetWorks.OrchardCore.Seo.Sitemapper.Providers
                 sitemapUrlItems.Add(urlItem);
             }
             return sitemapUrlItems;
+        }
+
+        private SitemapPartSettings GetSettings(SitemapPart sitemapPart)
+        {
+            if (sitemapPart == null)
+                return null;
+
+            var contentTypeDefinition = _contentDefinitionManager.GetTypeDefinition(sitemapPart.ContentItem.ContentType);
+            var contentTypePartDefinition = contentTypeDefinition.Parts.FirstOrDefault(x => String.Equals(x.PartDefinition.Name, nameof(SitemapPart), StringComparison.Ordinal));
+            return contentTypePartDefinition.Settings.ToObject<SitemapPartSettings>();
         }
     }
 }
