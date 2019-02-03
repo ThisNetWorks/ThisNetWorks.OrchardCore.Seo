@@ -49,6 +49,7 @@ namespace ThisNetWorks.OrchardCore.Seo.Robots.Controllers
                 }
                 var sanitizedBaseUrl = siteSettings.BaseUrl.Replace("http://", String.Empty);
                 sanitizedBaseUrl = sanitizedBaseUrl.Replace("https://", String.Empty);
+                sanitizedBaseUrl = sanitizedBaseUrl.TrimEnd('/');
                 var requestUrl = _httpContextAccessor.HttpContext.Request.Host.ToString();
                 if (requestUrl != sanitizedBaseUrl)
                 {
