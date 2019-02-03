@@ -6,12 +6,12 @@ namespace ThisNetWorks.OrchardCore.Seo.Sitemapper.Models
 {
     public enum ChangeFrequency
     {
-        Always,
-        Never,
-        Hourly,
         Daily,
+        Hourly,
         Weekly,
         Monthly,
-        Yearly
+        Yearly,
+        Always,
+        Never,
     }
 }
