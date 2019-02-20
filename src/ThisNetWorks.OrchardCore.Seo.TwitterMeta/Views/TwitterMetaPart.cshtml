@@ -1,46 +1,11 @@
-@model ThisNetWorks.OrchardCore.Seo.Meta.ViewModels.SeoMetaPartViewModel
-@using ThisNetWorks.OrchardCore.Seo.Meta
-@inject OrchardCore.DisplayManagement.Title.IPageTitleBuilder PageTitleBuilder
+@model ThisNetWorks.OrchardCore.Seo.TwitterMeta.ViewModels.TwitterMetaPartViewModel
 @{
-    if (!String.IsNullOrEmpty(Model.PageTitle))
+    if (!String.IsNullOrEmpty(Model.Title))
     {
-        var seoPageTitleBuilder = PageTitleBuilder as SeoPageTitleBuilder;
-        if (seoPageTitleBuilder != null)
-        {
-            seoPageTitleBuilder.SetTitle(Model.PageTitle);
-        }
+        <meta asp-name="title" content="@Model.Title" />
     }
-    if (!String.IsNullOrEmpty(Model.MetaDescription))
-    {
-        <meta asp-name="description" content="@Model.MetaDescription" />
-    }
-    if (!String.IsNullOrEmpty(Model.MetaKeywords))
+    @*if (!String.IsNullOrEmpty(Model.MetaKeywords))
     {
         <meta asp-name="keywords" content="@Model.MetaDescription" />
-    }
-
-    @if (!String.IsNullOrEmpty(twitterCard))
-    {
-        <meta asp-name="twitter:card" content="@twitterCard" />
-    }
-    @if (!String.IsNullOrEmpty(twitterDescription))
-    {
-        <meta asp-name="twitter:description" content="@twitterDescription" />
-    }
-    @if (!String.IsNullOrEmpty(twitterTitle))
-    {
-        <meta asp-name="twitter:title" content="@twitterTitle" />
-    }
-    @if (!String.IsNullOrEmpty(twitterImage))
-    {
-        <meta asp-name="twitter:image" content="@twitterImage" />
-    }
-    @if (!String.IsNullOrEmpty(twitterSite))
-    {
-        <meta asp-name="twitter:site" content="@twitterSite" />
-    }
-    @if (!String.IsNullOrEmpty(twitterCreator))
-    {
-        <meta asp-name="twitter:creator" content="@twitterCreator" />
-    }
+    }*@
 }

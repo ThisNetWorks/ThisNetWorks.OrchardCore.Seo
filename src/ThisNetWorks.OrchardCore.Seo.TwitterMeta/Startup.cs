@@ -11,10 +11,10 @@ using OrchardCore.ContentManagement.Handlers;
 using OrchardCore.Data.Migration;
 using OrchardCore.DisplayManagement.Title;
 using OrchardCore.Modules;
-using ThisNetWorks.OrchardCore.Seo.Meta.Drivers;
-using ThisNetWorks.OrchardCore.Seo.Meta.Models;
+using ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers;
+using ThisNetWorks.OrchardCore.Seo.TwitterMeta.Models;
 
-namespace ThisNetWorks.OrchardCore.Seo.Meta
+namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta
 {
     public class Startup : StartupBase
     {
@@ -22,12 +22,8 @@ namespace ThisNetWorks.OrchardCore.Seo.Meta
         {
             services.AddScoped<IDataMigration, Migrations>();
 
-            services.AddScoped<IContentPartDisplayDriver, SeoMetaPartDisplay>();
-            services.AddSingleton<ContentPart, SeoMetaPart>();
-
-            services.RemoveAll<IPageTitleBuilder>();
-
-            services.AddScoped<IPageTitleBuilder, SeoPageTitleBuilder>();
+            services.AddScoped<IContentPartDisplayDriver, TwitterMetaPartDisplay>();
+            services.AddSingleton<ContentPart, TwitterMetaPart>();
         }
         
     }
