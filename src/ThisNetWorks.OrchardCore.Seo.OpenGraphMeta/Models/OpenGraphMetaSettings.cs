@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ThisNetWorks.OrchardCore.Seo.FacebookMeta.Models
+namespace ThisNetWorks.OrchardCore.Seo.OpenGraphMeta.Models
 {
-    public class FacebookMetaSettings
+    public class OpenGraphMetaSettings
     {
-        public string DefaultFacebookImage { get; set; }
+        public OpenGraphType DefaultOpenGraphType { get; set; }
+
+        public string DefaultOpenGraphImage { get; set; }
 
         public string FacebookUrl { get; set; }
 

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <RootNamespace>ThisNetWorks.OrchardCore.Seo.FacebookMeta</RootNamespace>
+    <RootNamespace>ThisNetWorks.OrchardCore.Seo.OpenGraphMeta</RootNamespace>
   </PropertyGroup>
 
 </Project>

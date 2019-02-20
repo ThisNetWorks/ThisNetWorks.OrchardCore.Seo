@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ThisNetWorks.OrchardCore.Seo.FacebookMeta.ViewModels
+namespace ThisNetWorks.OrchardCore.Seo.OpenGraphMeta.ViewModels
 {
-    public class FacebookMetaSettingsViewModel
+    public class OpenGraphMetaSettingsViewModel
     {
         public bool MatchBaseUrlOrServeDisallow { get; set; }
         public string RobotsContent { get; set; }

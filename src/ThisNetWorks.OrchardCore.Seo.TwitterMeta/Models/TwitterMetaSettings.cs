@@ -6,9 +6,9 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Models
 {
     public class TwitterMetaSettings
     {
-        public string TwitterCard { get; set; }
+        public TwitterCardType DefaultTwitterCardType { get; set; } //fallsback to og:type
 
-        public string TwitterCreator { get; set; }
+        public string DefaultTwitterCreator { get; set; }
 
         public string TwitterSite { get; set; }
 

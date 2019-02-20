@@ -10,18 +10,18 @@ using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Views;
 using OrchardCore.Liquid;
-using ThisNetWorks.OrchardCore.Seo.FacebookMeta.Models;
-using ThisNetWorks.OrchardCore.Seo.FacebookMeta.ViewModels;
+using ThisNetWorks.OrchardCore.Seo.OpenGraphMeta.Models;
+using ThisNetWorks.OrchardCore.Seo.OpenGraphMeta.ViewModels;
 
 namespace ThisNetWorks.OrchardCore.Seo.FacebookMeta.Drivers
 {
-    public class FacebookMetaPartDisplay : ContentPartDisplayDriver<FacebookMetaPart>
+    public class OpenGraphMetaPartDisplay : ContentPartDisplayDriver<OpenGraphMetaPart>
     {
         private readonly IContentManager _contentManager;
         private readonly IServiceProvider _serviceProvider;
         private readonly ILiquidTemplateManager _liquidTemplatemanager;
 
-        public FacebookMetaPartDisplay(
+        public OpenGraphMetaPartDisplay(
             IContentManager contentManager,
             IServiceProvider serviceProvider,
             ILiquidTemplateManager liquidTemplateManager
@@ -32,30 +32,30 @@ namespace ThisNetWorks.OrchardCore.Seo.FacebookMeta.Drivers
             _liquidTemplatemanager = liquidTemplateManager;
         }
 
-        public override IDisplayResult Display(FacebookMetaPart part)
+        public override IDisplayResult Display(OpenGraphMetaPart part)
         {
-            return Initialize<FacebookMetaPartViewModel>("SeoMetaPart", m => BuildDisplayViewModelAsync(m, part))
+            return Initialize<OpenGraphMetaPartViewModel>("SeoMetaPart", m => BuildDisplayViewModelAsync(m, part))
                 .Location("Detail", "Content:5");
         }
 
 
 
-        public override IDisplayResult Edit(FacebookMetaPart sitemapPart)
+        public override IDisplayResult Edit(OpenGraphMetaPart sitemapPart)
         {
-            return Initialize<FacebookMetaPartViewModel>("SeoMetaPart_Edit", m => BuildEditViewModel(m, sitemapPart));
+            return Initialize<OpenGraphMetaPartViewModel>("SeoMetaPart_Edit", m => BuildEditViewModel(m, sitemapPart));
         }
         
-        public override async Task<IDisplayResult> UpdateAsync(FacebookMetaPart model, IUpdateModel updater)
+        public override async Task<IDisplayResult> UpdateAsync(OpenGraphMetaPart model, IUpdateModel updater)
         {
             await updater.TryUpdateModelAsync(model, Prefix, t => t.PageTitle, t => t.MetaDescription, t => t.MetaKeywords);
             return Edit(model);
         }
 
-        private async Task BuildDisplayViewModelAsync(FacebookMetaPartViewModel model, FacebookMetaPart part)
+        private async Task BuildDisplayViewModelAsync(OpenGraphMetaPartViewModel model, OpenGraphMetaPart part)
         {
             var templateContext = new TemplateContext();
             templateContext.SetValue("ContentItem", part.ContentItem);
-            templateContext.MemberAccessStrategy.Register<FacebookMetaPartViewModel>();
+            templateContext.MemberAccessStrategy.Register<OpenGraphMetaPartViewModel>();
 
             using (var writer = new StringWriter())
             {
@@ -75,7 +75,7 @@ namespace ThisNetWorks.OrchardCore.Seo.FacebookMeta.Drivers
             model.SeoMetaPart = part;
         }
 
-        private void BuildEditViewModel(FacebookMetaPartViewModel model, FacebookMetaPart part)
+        private void BuildEditViewModel(OpenGraphMetaPartViewModel model, OpenGraphMetaPart part)
         {
             model.PageTitle = part.PageTitle;
             model.MetaDescription = part.MetaDescription;

@@ -1,0 +1,73 @@
+@model ThisNetWorks.OrchardCore.Seo.Meta.ViewModels.SeoMetaPartViewModel
+@using ThisNetWorks.OrchardCore.Seo.Meta
+@inject OrchardCore.DisplayManagement.Title.IPageTitleBuilder PageTitleBuilder
+@{
+    if (!String.IsNullOrEmpty(Model.PageTitle))
+    {
+        var seoPageTitleBuilder = PageTitleBuilder as SeoPageTitleBuilder;
+        if (seoPageTitleBuilder != null)
+        {
+            seoPageTitleBuilder.SetTitle(Model.PageTitle);
+        }
+    }
+    if (!String.IsNullOrEmpty(Model.MetaDescription))
+    {
+        <meta asp-name="description" content="@Model.MetaDescription" />
+    }
+    if (!String.IsNullOrEmpty(Model.MetaKeywords))
+    {
+        <meta asp-name="keywords" content="@Model.MetaDescription" />
+    }
+
+
+    @* OpenGraph *@
+    @if (!String.IsNullOrEmpty(ogLocale))
+    {
+        <meta asp-name="og:locale" content="@ogLocale" />
+    }
+    @if (!String.IsNullOrEmpty(ogType))
+    {
+        <meta asp-name="og:type" content="@ogType" />
+    }
+    @if (!String.IsNullOrEmpty(ogTitle))
+    {
+        <meta asp-name="og:title" content="@ogTitle" />
+    }
+    @if (!String.IsNullOrEmpty(ogDescription))
+    {
+        <meta asp-name="og:description" content="@ogDescription" />
+    }
+    @if (!String.IsNullOrEmpty(ogUrl))
+    {
+        <meta asp-name="og:url" content="@ogUrl" />
+    }
+    @if (!String.IsNullOrEmpty(ogSiteName))
+    {
+        <meta asp-name="og:site_name" content="@ogSiteName" />
+    }
+    @if (!String.IsNullOrEmpty(ogUpdatedTime))
+    {
+        <meta asp-name="og:updated_time" content="@ogUpdatedTime" />
+    }
+    @if (!String.IsNullOrEmpty(ogImage))
+    {
+        <meta asp-name="og:image" content="@ogImage" />
+    }
+    @if (!String.IsNullOrEmpty(ogImageSecureUrl))
+    {
+        <meta asp-name="og:image:secure_url" content="@ogImageSecureUrl" />
+    }
+    @if (!String.IsNullOrEmpty(ogImageWidth))
+    {
+        <meta asp-name="og:image:width" content="@ogImageWidth" />
+    }
+    @if (!String.IsNullOrEmpty(ogImageHeight))
+    {
+        <meta asp-name="og:image:height" content="@ogImageHeight" />
+    }
+    @if (!String.IsNullOrEmpty(ogImageAlt))
+    {
+        <meta asp-name="og:image:alt" content="@ogImageAlt" />
+    }
+
+        }

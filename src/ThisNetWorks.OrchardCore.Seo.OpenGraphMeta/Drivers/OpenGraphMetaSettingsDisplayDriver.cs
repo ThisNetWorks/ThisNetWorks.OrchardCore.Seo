@@ -8,25 +8,25 @@ using OrchardCore.DisplayManagement.Entities;
 using OrchardCore.DisplayManagement.Handlers;
 using OrchardCore.DisplayManagement.Views;
 using OrchardCore.Settings;
-using ThisNetWorks.OrchardCore.Seo.FacebookMeta.Models;
-using ThisNetWorks.OrchardCore.Seo.FacebookMeta.ViewModels;
+using ThisNetWorks.OrchardCore.Seo.OpenGraphMeta.Models;
+using ThisNetWorks.OrchardCore.Seo.OpenGraphMeta.ViewModels;
 
-namespace ThisNetWorks.OrchardCore.Seo.FacebookMeta.Drivers
+namespace ThisNetWorks.OrchardCore.Seo.OpenGraphMeta.Drivers
 {
-    public class FacebookMetaSettingsDisplayDriver : SectionDisplayDriver<ISite, FacebookMetaSettings>
+    public class OpenGraphMetaSettingsDisplayDriver : SectionDisplayDriver<ISite, OpenGraphMetaSettings>
     {
         public const string GroupId = "robots";
 
         private readonly IAuthorizationService _authorizationService;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public FacebookMetaSettingsDisplayDriver(IAuthorizationService authorizationService, IHttpContextAccessor httpContextAccessor)
+        public OpenGraphMetaSettingsDisplayDriver(IAuthorizationService authorizationService, IHttpContextAccessor httpContextAccessor)
         {
             _authorizationService = authorizationService;
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public override async Task<IDisplayResult> EditAsync(FacebookMetaSettings settings, BuildEditorContext context)
+        public override async Task<IDisplayResult> EditAsync(OpenGraphMetaSettings settings, BuildEditorContext context)
         {
             var user = _httpContextAccessor.HttpContext?.User;
 
@@ -35,14 +35,14 @@ namespace ThisNetWorks.OrchardCore.Seo.FacebookMeta.Drivers
                 return null;
             }
 
-            return Initialize<FacebookMetaSettingsViewModel>("RobotsSettings_Edit", model =>
+            return Initialize<OpenGraphMetaSettingsViewModel>("RobotsSettings_Edit", model =>
             {
                 model.MatchBaseUrlOrServeDisallow = settings.MatchBaseUrlOrServeDisallow;
                 model.RobotsContent = settings.RobotsContent;
             }).Location("Content:5").OnGroup(GroupId);
         }
 
-        public override async Task<IDisplayResult> UpdateAsync(FacebookMetaSettings settings, BuildEditorContext context)
+        public override async Task<IDisplayResult> UpdateAsync(OpenGraphMetaSettings settings, BuildEditorContext context)
         {
             var user = _httpContextAccessor.HttpContext?.User;
 
@@ -53,7 +53,7 @@ namespace ThisNetWorks.OrchardCore.Seo.FacebookMeta.Drivers
 
             if (context.GroupId == GroupId)
             {
-                var model = new FacebookMetaSettingsViewModel();
+                var model = new OpenGraphMetaSettingsViewModel();
 
                 await context.Updater.TryUpdateModelAsync(model, Prefix);
 
