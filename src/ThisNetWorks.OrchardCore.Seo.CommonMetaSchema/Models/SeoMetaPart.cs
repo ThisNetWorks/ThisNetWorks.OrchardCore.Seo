@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using OrchardCore.ContentManagement;
 
-namespace ThisNetWorks.OrchardCore.Seo.Meta.Models
+namespace ThisNetWorks.OrchardCore.Seo.CommonMetaSchema.Models
 {
     public class SeoMetaPart : ContentPart
     {

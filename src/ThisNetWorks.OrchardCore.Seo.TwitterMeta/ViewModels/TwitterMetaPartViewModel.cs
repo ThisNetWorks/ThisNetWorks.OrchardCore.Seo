@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using ThisNetWorks.OrchardCore.Seo.Meta.Models;
 
-namespace ThisNetWorks.OrchardCore.Seo.Meta.ViewModels
+namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.ViewModels
 {
-    public class SeoMetaPartViewModel
+    public class TwitterMetaPartViewModel
     {
         public string PageTitle { get; set; }
 

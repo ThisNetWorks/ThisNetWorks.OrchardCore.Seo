@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using OrchardCore.ContentManagement;
 
-namespace ThisNetWorks.OrchardCore.Seo.Meta.Models
+namespace ThisNetWorks.OrchardCore.Seo.FacebookMeta.Models
 {
-    public class SeoMetaPart : ContentPart
+    public class FacebookMetaPart : ContentPart
     {
         public string PageTitle { get; set; }
 

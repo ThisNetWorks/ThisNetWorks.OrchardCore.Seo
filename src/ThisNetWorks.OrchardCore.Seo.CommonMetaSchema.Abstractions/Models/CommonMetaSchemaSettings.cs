@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,11 +16,9 @@ namespace ThisNetWorks.OrchardCore.Seo.CommonMetaSchema.Models
         public string DefaultSocialImage { get; set; }
 
         //TODO 
-        public string DefaultFacebookImage { get; set; }
 
         public string DefaultTwitterImage { get; set; }
 
-        public string FacebookUrl { get; set; }
 
         public string AddressCountry { get; set; }
 
@@ -50,9 +48,7 @@ namespace ThisNetWorks.OrchardCore.Seo.CommonMetaSchema.Models
 
         public string Logo { get; set; }
 
-        public string FacebookLocale { get; set; }
 
-        public string FacebookWebsiteName { get; set; }
 
         public string PotentialActionQueryInput { get; set; }
 
@@ -65,13 +61,6 @@ namespace ThisNetWorks.OrchardCore.Seo.CommonMetaSchema.Models
 
         public string Telephone { get; set; }
 
-        //TODO move to twitter
-        public string TwitterCard { get; set; }
 
-        public string TwitterCreator { get; set; }
-
-        public string TwitterSite { get; set; }
-
-        public string TwitterUrl { get; set; }
     }
 }

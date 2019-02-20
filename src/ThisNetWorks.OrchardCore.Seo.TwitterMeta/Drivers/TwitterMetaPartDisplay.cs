@@ -10,18 +10,18 @@ using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Views;
 using OrchardCore.Liquid;
-using ThisNetWorks.OrchardCore.Seo.Meta.Models;
-using ThisNetWorks.OrchardCore.Seo.Meta.ViewModels;
+using ThisNetWorks.OrchardCore.Seo.TwitterMeta.Models;
+using ThisNetWorks.OrchardCore.Seo.TwitterMeta.ViewModels;
 
-namespace ThisNetWorks.OrchardCore.Seo.Meta.Drivers
+namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
 {
-    public class SeoMetaPartDisplay : ContentPartDisplayDriver<SeoMetaPart>
+    public class TwitterMetaPartDisplay : ContentPartDisplayDriver<TwitterMetaPart>
     {
         private readonly IContentManager _contentManager;
         private readonly IServiceProvider _serviceProvider;
         private readonly ILiquidTemplateManager _liquidTemplatemanager;
 
-        public SeoMetaPartDisplay(
+        public TwitterMetaPartDisplay(
             IContentManager contentManager,
             IServiceProvider serviceProvider,
             ILiquidTemplateManager liquidTemplateManager
@@ -32,30 +32,30 @@ namespace ThisNetWorks.OrchardCore.Seo.Meta.Drivers
             _liquidTemplatemanager = liquidTemplateManager;
         }
 
-        public override IDisplayResult Display(SeoMetaPart part)
+        public override IDisplayResult Display(TwitterMetaPart part)
         {
-            return Initialize<SeoMetaPartViewModel>("SeoMetaPart", m => BuildDisplayViewModelAsync(m, part))
+            return Initialize<TwitterMetaPartViewModel>("SeoMetaPart", m => BuildDisplayViewModelAsync(m, part))
                 .Location("Detail", "Content:5");
         }
 
 
 
-        public override IDisplayResult Edit(SeoMetaPart sitemapPart)
+        public override IDisplayResult Edit(TwitterMetaPart sitemapPart)
         {
-            return Initialize<SeoMetaPartViewModel>("SeoMetaPart_Edit", m => BuildEditViewModel(m, sitemapPart));
+            return Initialize<TwitterMetaPartViewModel>("SeoMetaPart_Edit", m => BuildEditViewModel(m, sitemapPart));
         }
         
-        public override async Task<IDisplayResult> UpdateAsync(SeoMetaPart model, IUpdateModel updater)
+        public override async Task<IDisplayResult> UpdateAsync(TwitterMetaPart model, IUpdateModel updater)
         {
             await updater.TryUpdateModelAsync(model, Prefix, t => t.PageTitle, t => t.MetaDescription, t => t.MetaKeywords);
             return Edit(model);
         }
 
-        private async Task BuildDisplayViewModelAsync(SeoMetaPartViewModel model, SeoMetaPart part)
+        private async Task BuildDisplayViewModelAsync(TwitterMetaPartViewModel model, TwitterMetaPart part)
         {
             var templateContext = new TemplateContext();
             templateContext.SetValue("ContentItem", part.ContentItem);
-            templateContext.MemberAccessStrategy.Register<SeoMetaPartViewModel>();
+            templateContext.MemberAccessStrategy.Register<TwitterMetaPartViewModel>();
 
             using (var writer = new StringWriter())
             {
@@ -75,7 +75,7 @@ namespace ThisNetWorks.OrchardCore.Seo.Meta.Drivers
             model.SeoMetaPart = part;
         }
 
-        private void BuildEditViewModel(SeoMetaPartViewModel model, SeoMetaPart part)
+        private void BuildEditViewModel(TwitterMetaPartViewModel model, TwitterMetaPart part)
         {
             model.PageTitle = part.PageTitle;
             model.MetaDescription = part.MetaDescription;

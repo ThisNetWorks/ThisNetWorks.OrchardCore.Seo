@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using ThisNetWorks.OrchardCore.Seo.Meta.Models;
+using ThisNetWorks.OrchardCore.Seo.FacebookMeta.Models;
 
-namespace ThisNetWorks.OrchardCore.Seo.Meta.ViewModels
+namespace ThisNetWorks.OrchardCore.Seo.FacebookMeta.ViewModels
 {
-    public class SeoMetaPartViewModel
+    public class FacebookMetaPartViewModel
     {
         public string PageTitle { get; set; }
 
@@ -12,7 +12,7 @@ namespace ThisNetWorks.OrchardCore.Seo.Meta.ViewModels
         public string MetaKeywords { get; set; }
 
         [BindNever]
-        public SeoMetaPart SeoMetaPart { get; set; }
+        public FacebookMetaPart SeoMetaPart { get; set; }
         
 
     }
