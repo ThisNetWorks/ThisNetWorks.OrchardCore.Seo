@@ -60,7 +60,19 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
         {
             var mainResult = Initialize<TwitterMetaPartViewModel>("TwitterMetaPart_Edit", m => BuildEditViewModel(m, part));
 
+
+            //can we use dynamic to build the field shape for us?
+            //probably not for the editor. but maybe yes for when we want to display it - to display it with a totally different shape
+            //
+
+            //return Dynamic("ListPart_ContainerId", shape =>
+            //{
+            //    shape.ContainerId = containerId;
+            //})
+            //.Location("Content");
             //var contentTypeDefinition = _contentDefinitionManager.GetPartDefinition("TwitterMetaPart");
+
+
             var contentTypeDefinitions = _contentDefinitionManager.GetTypeDefinition(part.ContentItem.ContentType);
             var typeDef = contentTypeDefinitions.Parts.FirstOrDefault(x => x.Name == "TwitterMetaPart");
             //if (contentTypeDefinition == null)
