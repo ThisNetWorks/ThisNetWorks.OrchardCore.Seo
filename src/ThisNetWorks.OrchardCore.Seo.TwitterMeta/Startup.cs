@@ -9,8 +9,11 @@ using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.ContentManagement.Handlers;
 using OrchardCore.Data.Migration;
+using OrchardCore.DisplayManagement.Handlers;
 using OrchardCore.DisplayManagement.Title;
 using OrchardCore.Modules;
+using OrchardCore.Navigation;
+using OrchardCore.Settings;
 using ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers;
 using ThisNetWorks.OrchardCore.Seo.TwitterMeta.Models;
 
@@ -22,8 +25,10 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta
         {
             services.AddScoped<IDataMigration, Migrations>();
 
+            services.AddScoped<INavigationProvider, AdminMenu>();
             services.AddScoped<IContentPartDisplayDriver, TwitterMetaPartDisplay>();
             services.AddSingleton<ContentPart, TwitterMetaPart>();
+            services.AddScoped<IDisplayDriver<ISite>, TwitterMetaSettingsDisplayDriver>();
         }
         
     }

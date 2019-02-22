@@ -1,67 +1,98 @@
-//using System;
-//using System.Collections.Generic;
-//using System.Text;
-//using System.Threading.Tasks;
-//using Microsoft.AspNetCore.Authorization;
-//using Microsoft.AspNetCore.Http;
-//using OrchardCore.DisplayManagement.Entities;
-//using OrchardCore.DisplayManagement.Handlers;
-//using OrchardCore.DisplayManagement.Views;
-//using OrchardCore.Settings;
-//using ThisNetWorks.OrchardCore.Seo.TwitterMeta.Models;
-//using ThisNetWorks.OrchardCore.Seo.TwitterMeta.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json.Linq;
+using OrchardCore.ContentManagement.Display.ContentDisplay;
+using OrchardCore.ContentManagement.Metadata;
+using OrchardCore.ContentManagement.Metadata.Models;
+using OrchardCore.DisplayManagement.Entities;
+using OrchardCore.DisplayManagement.Handlers;
+using OrchardCore.DisplayManagement.Views;
+using OrchardCore.Settings;
+using ThisNetWorks.OrchardCore.Seo.TwitterMeta.Models;
+using ThisNetWorks.OrchardCore.Seo.TwitterMeta.ViewModels;
+using OrchardCore.Modules;
 
-//namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
-//{
-//    public class TwitterMetaSettingsDisplayDriver : SectionDisplayDriver<ISite, TwitterMetaSettings>
-//    {
-//        public const string GroupId = "robots";
+namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
+{
+    public class TwitterMetaSettingsDisplayDriver : SectionDisplayDriver<ISite, TwitterMetaSettings>
+    {
+        public const string GroupId = "twittermeta";
+        private readonly IEnumerable<IContentFieldDisplayDriver> _fieldDisplayDrivers;
+        private readonly IContentDefinitionManager _contentDefinitionManager;
 
-//        private readonly IAuthorizationService _authorizationService;
-//        private readonly IHttpContextAccessor _httpContextAccessor;
+        public TwitterMetaSettingsDisplayDriver(
+            IEnumerable<IContentFieldDisplayDriver> fieldDisplayDrivers,
+            IContentDefinitionManager contentDefinitionManager) {
+            _fieldDisplayDrivers = fieldDisplayDrivers;
+            _contentDefinitionManager = contentDefinitionManager;
+        }
 
-//        public TwitterMetaSettingsDisplayDriver(IAuthorizationService authorizationService, IHttpContextAccessor httpContextAccessor)
-//        {
-//            _authorizationService = authorizationService;
-//            _httpContextAccessor = httpContextAccessor;
-//        }
+        public override async Task<IDisplayResult> EditAsync(ISite model, TwitterMetaSettings settings, BuildEditorContext context)
+        {
 
-//        public override async Task<IDisplayResult> EditAsync(TwitterMetaSettings settings, BuildEditorContext context)
-//        {
-//            var user = _httpContextAccessor.HttpContext?.User;
 
-//            if (!await _authorizationService.AuthorizeAsync(user, Permissions.ManageRobots))
-//            {
-//                return null;
-//            }
+            var vm = Initialize<TwitterMetaSettingsViewModel>("TwitterMetaSettings_Edit", m =>
+            {
+                m.DefaultTwitterCardType = settings.DefaultTwitterCardType;
+                m.TwitterSite = settings.TwitterSite;
+                m.TwitterUrl = settings.TwitterUrl;
+                m.DefaultTwitterImageField = settings.DefaultTwitterImageField;
+                m.DefaultTwitterImageFieldDefinition = settings.DefaultTwitterImageFieldDefinition;
+                m.DefaultTwitterCardType = settings.DefaultTwitterCardType;
+            }).Location("Content:5").OnGroup(GroupId);
 
-//            return Initialize<TwitterMetaSettingsViewModel>("RobotsSettings_Edit", model =>
-//            {
-//                model.MatchBaseUrlOrServeDisallow = settings.MatchBaseUrlOrServeDisallow;
-//                model.RobotsContent = settings.RobotsContent;
-//            }).Location("Content:5").OnGroup(GroupId);
-//        }
 
-//        public override async Task<IDisplayResult> UpdateAsync(TwitterMetaSettings settings, BuildEditorContext context)
-//        {
-//            var user = _httpContextAccessor.HttpContext?.User;
+            var contentTypeDefinitions = _contentDefinitionManager.GetTypeDefinition("Doc");
+            var typeDef = contentTypeDefinitions.Parts.FirstOrDefault(x => x.Name == "TwitterMetaPart");
 
-//            if (!await _authorizationService.AuthorizeAsync(user, Permissions.ManageRobots))
-//            {
-//                return null;
-//            }
+            var _fieldDefinition = new ContentFieldDefinition("MediaField");
 
-//            if (context.GroupId == GroupId)
-//            {
-//                var model = new TwitterMetaSettingsViewModel();
+            var t = new ContentPartFieldDefinition(_fieldDefinition, "Test", new JObject());
+            IDisplayResult result = null;
+            //foreach (var fiel in _fieldDisplayDrivers)
+            //{
+            //    result = await fiel.BuildEditorAsync(part, t, typeDef, context);
+            //    if (result != null)
+            //    {
+            //        break;
+            //    }
+            //}
+            await _fieldDisplayDrivers.InvokeAsync(async contentDisplay =>
+            {
+                result = await contentDisplay.BuildEditorAsync(part, t, typeDef, context);
+                if (result != null)
+                {
+                    await result.ApplyAsync(context);
+                }
+            }, null);
 
-//                await context.Updater.TryUpdateModelAsync(model, Prefix);
+            return vm;
+            //return Combine(vm, result);
+        }
+    
 
-//                settings.MatchBaseUrlOrServeDisallow = model.MatchBaseUrlOrServeDisallow;
-//                settings.RobotsContent = model.RobotsContent;
-//            }
+        public override async Task<IDisplayResult> UpdateAsync(TwitterMetaSettings settings, BuildEditorContext context)
+        {
+            if (context.GroupId == GroupId)
+            {
+                var model = new TwitterMetaSettingsViewModel();
 
-//            return await EditAsync(settings, context);
-//        }
-//    }
-//}
+                await context.Updater.TryUpdateModelAsync(model, Prefix);
+
+                settings.DefaultTwitterCardType = model.DefaultTwitterCardType;
+                settings.TwitterSite = model.TwitterSite;
+                settings.TwitterUrl = model.TwitterUrl;
+                settings.DefaultTwitterImageField = model.DefaultTwitterImageField;
+                settings.DefaultTwitterImageFieldDefinition = model.DefaultTwitterImageFieldDefinition;
+                settings.DefaultTwitterCardType = model.DefaultTwitterCardType;
+            }
+
+            return await EditAsync(settings, context);
+        }
+    }
+}
