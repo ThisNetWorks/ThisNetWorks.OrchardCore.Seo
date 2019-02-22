@@ -93,22 +93,22 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
 
             var t = new ContentPartFieldDefinition(_fieldDefinition, "Test", new JObject());
             IDisplayResult result = null;
-            foreach (var fiel in _fieldDisplayDrivers)
-            {
-                result = await fiel.BuildEditorAsync(part, t, typeDef, context);
-                if (result != null)
-                {
-                    break;
-                }
-            }
-            //await _fieldDisplayDrivers.InvokeAsync(async contentDisplay =>
+            //foreach (var fiel in _fieldDisplayDrivers)
             //{
-            //    var result = await contentDisplay.BuildEditorAsync(part, t, typeDef, context);
+            //    result = await fiel.BuildEditorAsync(part, t, typeDef, context);
             //    if (result != null)
             //    {
-            //        await result.ApplyAsync(context);
+            //        break;
             //    }
-            //}, null);
+            //}
+            await _fieldDisplayDrivers.InvokeAsync(async contentDisplay =>
+            {
+                result = await contentDisplay.BuildEditorAsync(part, t, typeDef, context);
+                if (result != null)
+                {
+                    await result.ApplyAsync(context);
+                }
+            }, null);
 
             return Combine(mainResult, result);
 
