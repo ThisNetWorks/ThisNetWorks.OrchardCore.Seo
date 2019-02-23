@@ -6,3 +6,17 @@
         <span class="hint">@T["Twitter title"]</span>
     </div>
 </fieldset>
+<fieldset>
+    <div class="form-group" asp-validation-class-for="Description">
+        <label asp-for="Description">@T["Description"] </label>
+        <input asp-for="Description" class="form-control content-preview-text" />
+        <span class="hint">@T["Twitter Description"]</span>
+    </div>
+</fieldset>
+<fieldset>
+    <div class="form-group" asp-validation-class-for="ImageAlt">
+        <label asp-for="ImageAlt">@T["Image Alt"] </label>
+        <input asp-for="ImageAlt" class="form-control content-preview-text" />
+        <span class="hint">@T["Twitter ImageAlt"]</span>
+    </div>
+</fieldset>

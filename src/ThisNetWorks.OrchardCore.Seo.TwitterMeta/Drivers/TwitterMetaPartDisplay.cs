@@ -26,22 +26,15 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
         private readonly IServiceProvider _serviceProvider;
         private readonly ILiquidTemplateManager _liquidTemplatemanager;
 
-        private readonly IEnumerable<IContentFieldDisplayDriver> _fieldDisplayDrivers;
-        private readonly IContentDefinitionManager _contentDefinitionManager;
-
         public TwitterMetaPartDisplay(
             IContentManager contentManager,
             IServiceProvider serviceProvider,
-            ILiquidTemplateManager liquidTemplateManager,
-            IEnumerable<IContentFieldDisplayDriver> fieldDisplayDrivers,
-            IContentDefinitionManager contentDefinitionManager
+            ILiquidTemplateManager liquidTemplateManager
             )
         {
             _contentManager = contentManager;
             _serviceProvider = serviceProvider;
             _liquidTemplatemanager = liquidTemplateManager;
-            _fieldDisplayDrivers = fieldDisplayDrivers;
-            _contentDefinitionManager = contentDefinitionManager;
         }
 
         public override IDisplayResult Display(TwitterMetaPart part)
@@ -50,107 +43,17 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
                     .Location("Detail", "Content:6");
         }
 
-        //public override IDisplayResult Edit(TwitterMetaPart part, BuildPartEditorContext context)
-        //{
-        //    return Initialize<TwitterMetaPartViewModel>("TwitterMetaPart_Edit", m => BuildEditViewModel(m, part));
-        //}
-
-
-        public override async Task<IDisplayResult> EditAsync(TwitterMetaPart part, BuildPartEditorContext context)
+        public override IDisplayResult Edit(TwitterMetaPart part, BuildPartEditorContext context)
         {
-            var mainResult = Initialize<TwitterMetaPartViewModel>("TwitterMetaPart_Edit", m => BuildEditViewModel(m, part));
-
-
-            //can we use dynamic to build the field shape for us?
-            //probably not for the editor. but maybe yes for when we want to display it - to display it with a totally different shape
-            //
-
-            //return Dynamic("ListPart_ContainerId", shape =>
-            //{
-            //    shape.ContainerId = containerId;
-            //})
-            //.Location("Content");
-            //var contentTypeDefinition = _contentDefinitionManager.GetPartDefinition("TwitterMetaPart");
-
-
-            var contentTypeDefinitions = _contentDefinitionManager.GetTypeDefinition(part.ContentItem.ContentType);
-            var typeDef = contentTypeDefinitions.Parts.FirstOrDefault(x => x.Name == "TwitterMetaPart");
-            //if (contentTypeDefinition == null)
-            //    return;
-
-            //            _contentDefinitionManager.AlterPartDefinition("TwitterMetaPart", builder => builder
-            //    .Attachable()
-            //    .WithDescription("Provides a part that allows twitter card on a content item.")
-            //    .WithField("test", x => x.OfType(");
-
-
-            //var existingField = new ContentPartFieldDefinition(null, "test", new JObject());
-
-            //        var configurer = new FieldConfigurerImpl(existingField, _part);
-            //        configuration(configurer);
-            //        _fields.Add(configurer.Build());
-            var _fieldDefinition = new ContentFieldDefinition("MediaField");
-
-            var t = new ContentPartFieldDefinition(_fieldDefinition, "Test", new JObject());
-            IDisplayResult result = null;
-            //foreach (var fiel in _fieldDisplayDrivers)
-            //{
-            //    result = await fiel.BuildEditorAsync(part, t, typeDef, context);
-            //    if (result != null)
-            //    {
-            //        break;
-            //    }
-            //}
-            await _fieldDisplayDrivers.InvokeAsync(async contentDisplay =>
-            {
-                result = await contentDisplay.BuildEditorAsync(part, t, typeDef, context);
-                if (result != null)
-                {
-                    await result.ApplyAsync(context);
-                }
-            }, null);
-
-            return Combine(mainResult, result);
-
-            //return await Task.FromResult(mainResult);
+            return Initialize<TwitterMetaPartViewModel>("TwitterMetaPart", m => BuildEditViewModel(m, part))
+           .Location("Detail", "Content:6");
         }
-        //public override IDisplayResult Edit(TwitterMetaPart sitemapPart)
-        //{
-            //foreach (var partFieldDefinition in typePartDefinition.PartDefinition.Fields)
-            //{
-            //    var fieldName = partFieldDefinition.Name;
-
-            //    var fieldPosition = partFieldDefinition.Settings["Position"]?.ToString() ?? "before";
-
-            //    context.DefaultZone = $"Parts.{typePartDefinition.Name}:{fieldPosition}";
-
-            //    await _fieldDisplayDrivers.InvokeAsync(async contentDisplay =>
-            //    {
-            //        var result = await contentDisplay.BuildEditorAsync(part, partFieldDefinition, typePartDefinition, context);
-            //        if (result != null)
-            //        {
-            //            await result.ApplyAsync(context);
-            //        }
-            //    }, Logger);
-            //}
-
-            //return Combine(Initialize<TwitterMetaPartViewModel>("TwitterMetaPart_Edit", m => BuildEditViewModel(m, sitemapPart))
-                //,
-
-                //View("MediaField_Edit", sitemapPart.ImageUrl)
-        //        );
-        //}
-
-
         public override async Task<IDisplayResult> UpdateAsync(TwitterMetaPart model, IUpdateModel updater)
         {
             await updater.TryUpdateModelAsync(model, Prefix,
-                t => t.UseDefaultTwitterCardType,
-                t => t.TwitterCardType,
-                t => t.UseDefaultCreator,
-                t => t.Creator,
                 t => t.Title,
-                t => t.Description);
+                t => t.Description,
+                t => t.ImageAlt);
             return Edit(model);
         }
 
@@ -175,10 +78,6 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
 
         private void BuildEditViewModel(TwitterMetaPartViewModel model, TwitterMetaPart part)
         {
-            model.UseDefaultTwitterCardType = part.UseDefaultTwitterCardType;
-            model.TwitterCardType = part.TwitterCardType;
-            model.UseDefaultCreator = part.UseDefaultCreator;
-            model.Creator = part.Creator;
             model.Title = part.Title;
             model.Description = part.Description;
             //model.ImageUrl = part.ImageUrl;

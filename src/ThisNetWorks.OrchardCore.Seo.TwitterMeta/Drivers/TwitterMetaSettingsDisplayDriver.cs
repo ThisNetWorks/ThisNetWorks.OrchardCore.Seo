@@ -34,68 +34,17 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
             _contentDefinitionManager = contentDefinitionManager;
         }
 
-        public override async Task<IDisplayResult> EditAsync(ISite model, TwitterMetaSettings settings, BuildEditorContext context)
+        public override IDisplayResult Edit(TwitterMetaSettings settings)
         {
-
-
-            var vm = Initialize<TwitterMetaSettingsViewModel>("TwitterMetaSettings_Edit", m =>
+            return Initialize<TwitterMetaSettingsViewModel>("TwitterMetaSettings_Edit", m =>
             {
-                m.DefaultTwitterCardType = settings.DefaultTwitterCardType;
                 m.TwitterSite = settings.TwitterSite;
                 m.TwitterUrl = settings.TwitterUrl;
-                m.DefaultTwitterImageField = settings.DefaultTwitterImageField;
-                m.DefaultTwitterImageFieldDefinition = settings.DefaultTwitterImageFieldDefinition;
-                m.DefaultTwitterCardType = settings.DefaultTwitterCardType;
+                m.TwitterCreator = settings.TwitterCreator;
+                m.DefaultImageUrl = settings.DefaultImageUrl;
+                m.DefaultImageAlt = settings.DefaultImageAlt;
             }).Location("Content:5").OnGroup(GroupId);
-
-            var _fieldDefinition = new ContentFieldDefinition("MediaField");
-
-            var t = new ContentPartFieldDefinition(_fieldDefinition, "Test", new JObject());
-            //var media = Dynamic("MediaField_Edit", shape =>
-            //{
-            //    shape.Paths = JsonConvert.SerializeObject(new string[] { });
-            //    shape.PartFieldDefinition = t;
-            //    shape.Field = null;
-            //    shape.Part = null;
-            //}).Location("Content:5").OnGroup(GroupId);
-
-            var m2 = Initialize<EditMediaFieldViewModel>("MediaField_Edit", m =>
-            {
-                m.Paths = JsonConvert.SerializeObject(new string[] { });
-
-                m.Field = null;
-                m.Part = null;
-                m.PartFieldDefinition = t;
-            });
-
-            //var contentTypeDefinitions = _contentDefinitionManager.GetTypeDefinition("Doc");
-            //var typeDef = contentTypeDefinitions.Parts.FirstOrDefault(x => x.Name == "TwitterMetaPart");
-
-            //var _fieldDefinition = new ContentFieldDefinition("MediaField");
-
-            //var t = new ContentPartFieldDefinition(_fieldDefinition, "Test", new JObject());
-            //IDisplayResult result = null;
-            ////foreach (var fiel in _fieldDisplayDrivers)
-            ////{
-            ////    result = await fiel.BuildEditorAsync(part, t, typeDef, context);
-            ////    if (result != null)
-            ////    {
-            ////        break;
-            ////    }
-            ////}
-            //await _fieldDisplayDrivers.InvokeAsync(async contentDisplay =>
-            //{
-            //    result = await contentDisplay.BuildEditorAsync(part, t, typeDef, context);
-            //    if (result != null)
-            //    {
-            //        await result.ApplyAsync(context);
-            //    }
-            //}, null);
-
-            return m2;
-      //      return Combine( m2);
         }
-    
 
         public override async Task<IDisplayResult> UpdateAsync(TwitterMetaSettings settings, BuildEditorContext context)
         {
@@ -104,13 +53,12 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
                 var model = new TwitterMetaSettingsViewModel();
 
                 await context.Updater.TryUpdateModelAsync(model, Prefix);
-
-                settings.DefaultTwitterCardType = model.DefaultTwitterCardType;
+                
                 settings.TwitterSite = model.TwitterSite;
                 settings.TwitterUrl = model.TwitterUrl;
-                settings.DefaultTwitterImageField = model.DefaultTwitterImageField;
-                settings.DefaultTwitterImageFieldDefinition = model.DefaultTwitterImageFieldDefinition;
-                settings.DefaultTwitterCardType = model.DefaultTwitterCardType;
+                settings.DefaultImageUrl = model.DefaultImageUrl;
+                settings.DefaultImageAlt = model.DefaultImageAlt;
+                settings.TwitterCreator = model.TwitterCreator;
             }
 
             return await EditAsync(settings, context);
