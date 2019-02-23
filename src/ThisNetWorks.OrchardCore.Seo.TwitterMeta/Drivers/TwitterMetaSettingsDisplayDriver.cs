@@ -16,6 +16,8 @@ using OrchardCore.Settings;
 using ThisNetWorks.OrchardCore.Seo.TwitterMeta.Models;
 using ThisNetWorks.OrchardCore.Seo.TwitterMeta.ViewModels;
 using OrchardCore.Modules;
+using Newtonsoft.Json;
+using OrchardCore.Media.ViewModels;
 
 namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
 {
@@ -46,33 +48,52 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
                 m.DefaultTwitterCardType = settings.DefaultTwitterCardType;
             }).Location("Content:5").OnGroup(GroupId);
 
-
-            var contentTypeDefinitions = _contentDefinitionManager.GetTypeDefinition("Doc");
-            var typeDef = contentTypeDefinitions.Parts.FirstOrDefault(x => x.Name == "TwitterMetaPart");
-
             var _fieldDefinition = new ContentFieldDefinition("MediaField");
 
             var t = new ContentPartFieldDefinition(_fieldDefinition, "Test", new JObject());
-            IDisplayResult result = null;
-            //foreach (var fiel in _fieldDisplayDrivers)
+            //var media = Dynamic("MediaField_Edit", shape =>
             //{
-            //    result = await fiel.BuildEditorAsync(part, t, typeDef, context);
+            //    shape.Paths = JsonConvert.SerializeObject(new string[] { });
+            //    shape.PartFieldDefinition = t;
+            //    shape.Field = null;
+            //    shape.Part = null;
+            //}).Location("Content:5").OnGroup(GroupId);
+
+            var m2 = Initialize<EditMediaFieldViewModel>("MediaField_Edit", m =>
+            {
+                m.Paths = JsonConvert.SerializeObject(new string[] { });
+
+                m.Field = null;
+                m.Part = null;
+                m.PartFieldDefinition = t;
+            });
+
+            //var contentTypeDefinitions = _contentDefinitionManager.GetTypeDefinition("Doc");
+            //var typeDef = contentTypeDefinitions.Parts.FirstOrDefault(x => x.Name == "TwitterMetaPart");
+
+            //var _fieldDefinition = new ContentFieldDefinition("MediaField");
+
+            //var t = new ContentPartFieldDefinition(_fieldDefinition, "Test", new JObject());
+            //IDisplayResult result = null;
+            ////foreach (var fiel in _fieldDisplayDrivers)
+            ////{
+            ////    result = await fiel.BuildEditorAsync(part, t, typeDef, context);
+            ////    if (result != null)
+            ////    {
+            ////        break;
+            ////    }
+            ////}
+            //await _fieldDisplayDrivers.InvokeAsync(async contentDisplay =>
+            //{
+            //    result = await contentDisplay.BuildEditorAsync(part, t, typeDef, context);
             //    if (result != null)
             //    {
-            //        break;
+            //        await result.ApplyAsync(context);
             //    }
-            //}
-            await _fieldDisplayDrivers.InvokeAsync(async contentDisplay =>
-            {
-                result = await contentDisplay.BuildEditorAsync(part, t, typeDef, context);
-                if (result != null)
-                {
-                    await result.ApplyAsync(context);
-                }
-            }, null);
+            //}, null);
 
-            return vm;
-            //return Combine(vm, result);
+            return m2;
+      //      return Combine( m2);
         }
     
 
