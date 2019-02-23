@@ -5,7 +5,13 @@
         <meta asp-name="title" content="@Model.Title" />
     }
     @*if (!String.IsNullOrEmpty(Model.MetaKeywords))
-    {
-        <meta asp-name="keywords" content="@Model.MetaDescription" />
-    }*@
+        {
+            <meta asp-name="keywords" content="@Model.MetaDescription" />
+        }*@
+
+    @*
+                always
+        <meta property=”og:type” content=”website” />
+
+    *@
 }
