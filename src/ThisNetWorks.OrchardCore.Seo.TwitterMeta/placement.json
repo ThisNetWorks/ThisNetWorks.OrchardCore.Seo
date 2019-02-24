@@ -8,7 +8,8 @@
 {
   "MediaField": [
     {
-      "place": "-"
+      "place": "-",
+      "contentPart": [ "TwitterMetaPart" ]
     }
   ]
 }
