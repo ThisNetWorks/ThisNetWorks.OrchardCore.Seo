@@ -6,66 +6,70 @@
 @{
     @* do twitter tags first, then og tags from same dataset (MVP) - just so they line up together *@
     @*setup some shared variables *@
-    string title = String.Empty;
-    if (!String.IsNullOrEmpty(Model.Title))
+string title = String.Empty;
+if (!String.IsNullOrEmpty(Model.Title))
+{
+    title = Model.Title;
+}
+else
+{
+    title = Model.TwitterMetaPart.ContentItem.DisplayText;
+}
+string description = String.Empty;
+if (!String.IsNullOrEmpty(Model.Description))
+{
+    description = Model.Description;
+}
+else
+{
+    SeoMetaPart seoMetaPart = Model.TwitterMetaPart.ContentItem.As<SeoMetaPart>();
+    if (seoMetaPart != null && !String.IsNullOrEmpty(seoMetaPart.MetaDescription))
     {
-        title = Model.Title;
+        description = seoMetaPart.MetaDescription;
     }
     else
     {
-        title = Model.TwitterMetaPart.ContentItem.DisplayText;
+        description = Model.TwitterMetaPart.ContentItem.DisplayText;
     }
-    string description = String.Empty;
-    if (!String.IsNullOrEmpty(Model.Description))
-    {
-        description = Model.Description;
-    }
-    else
-    {
-        SeoMetaPart seoMetaPart = Model.TwitterMetaPart.ContentItem.As<SeoMetaPart>();
-        if (seoMetaPart != null && !String.IsNullOrEmpty(seoMetaPart.MetaDescription))
-        {
-            description = seoMetaPart.MetaDescription;
-        }
-        else
-        {
-            description = Model.TwitterMetaPart.ContentItem.DisplayText;
-        }
-    }
-    var contentItemMetadata = await ContentManager.PopulateAspectAsync<ContentItemMetadata>(Model.TwitterMetaPart.ContentItem);
+}
+var contentItemMetadata = await ContentManager.PopulateAspectAsync<ContentItemMetadata>(Model.TwitterMetaPart.ContentItem);
 
-    var relativeUrl = Url.RouteUrl(contentItemMetadata.DisplayRouteValues);
-    var absoluteUrl = Url.ToAbsoluteUrl(relativeUrl);
+var relativeUrl = Url.RouteUrl(contentItemMetadata.DisplayRouteValues);
+var absoluteUrl = Url.ToAbsoluteUrl(relativeUrl);
 
-    string imageAbs = String.Empty;
-    if (Model.TwitterMetaPart.Content.TwitterImage.Paths.HasValues)
+string imageAbs = String.Empty;
+if (Model.TwitterMetaPart.Content.TwitterImage.Paths.HasValues)
+{
+    var image = (string)Model.TwitterMetaPart.Content.TwitterImage.Paths[0];
+    @* quick hack as isn't including mediapath *@
+    if (!image.Contains("media"))
     {
-        var image = (string)Model.TwitterMetaPart.Content.TwitterImage.Paths[0];
-
-        if (image.Substring(0, 1) != "/")
-        {
-            image = "/" + image;
-        }
-        imageAbs = Url.ToAbsoluteUrl(image);
+        image = "media/" + image;
     }
-    else if (!String.IsNullOrEmpty(Model.TwitterMetaSettings.DefaultImageUrl))
+    if (image.Substring(0, 1) != "/")
     {
-        var image = Model.TwitterMetaSettings.DefaultImageUrl;
-        if (image.Substring(0, 1) != "/")
-        {
-            image = "/" + image;
-        }
-        imageAbs = Url.ToAbsoluteUrl(image);
+        image = "/" + image;
     }
-    string imageAlt = String.Empty;
-    if (!String.IsNullOrEmpty(Model.ImageAlt))
+    imageAbs = Url.ToAbsoluteUrl(image);
+}
+else if (!String.IsNullOrEmpty(Model.TwitterMetaSettings.DefaultImageUrl))
+{
+    var image = Model.TwitterMetaSettings.DefaultImageUrl;
+    if (image.Substring(0, 1) != "/")
     {
-        imageAlt = Model.ImageAlt;
+        image = "/" + image;
     }
-    else if (!String.IsNullOrEmpty(Model.TwitterMetaSettings.DefaultImageAlt))
-    {
-        imageAlt = Model.TwitterMetaSettings.DefaultImageAlt;
-    }
+    imageAbs = Url.ToAbsoluteUrl(image);
+}
+string imageAlt = String.Empty;
+if (!String.IsNullOrEmpty(Model.ImageAlt))
+{
+    imageAlt = Model.ImageAlt;
+}
+else if (!String.IsNullOrEmpty(Model.TwitterMetaSettings.DefaultImageAlt))
+{
+    imageAlt = Model.TwitterMetaSettings.DefaultImageAlt;
+}
     @* then display twitter *@
     <meta asp-name="twitter:card" content="summary" />
 
