@@ -24,14 +24,8 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
     public class TwitterMetaSettingsDisplayDriver : SectionDisplayDriver<ISite, TwitterMetaSettings>
     {
         public const string GroupId = "twittermeta";
-        private readonly IEnumerable<IContentFieldDisplayDriver> _fieldDisplayDrivers;
-        private readonly IContentDefinitionManager _contentDefinitionManager;
 
-        public TwitterMetaSettingsDisplayDriver(
-            IEnumerable<IContentFieldDisplayDriver> fieldDisplayDrivers,
-            IContentDefinitionManager contentDefinitionManager) {
-            _fieldDisplayDrivers = fieldDisplayDrivers;
-            _contentDefinitionManager = contentDefinitionManager;
+        public TwitterMetaSettingsDisplayDriver() {
         }
 
         public override IDisplayResult Edit(TwitterMetaSettings settings)
@@ -39,7 +33,6 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
             return Initialize<TwitterMetaSettingsViewModel>("TwitterMetaSettings_Edit", m =>
             {
                 m.TwitterSite = settings.TwitterSite;
-                m.TwitterUrl = settings.TwitterUrl;
                 m.TwitterCreator = settings.TwitterCreator;
                 m.DefaultImageUrl = settings.DefaultImageUrl;
                 m.DefaultImageAlt = settings.DefaultImageAlt;
@@ -55,7 +48,6 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
                 await context.Updater.TryUpdateModelAsync(model, Prefix);
                 
                 settings.TwitterSite = model.TwitterSite;
-                settings.TwitterUrl = model.TwitterUrl;
                 settings.DefaultImageUrl = model.DefaultImageUrl;
                 settings.DefaultImageAlt = model.DefaultImageAlt;
                 settings.TwitterCreator = model.TwitterCreator;

@@ -17,6 +17,10 @@ using OrchardCore.Modules;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Metadata.Models;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
+using OrchardCore.Settings;
+using OrchardCore.Entities;
 
 namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
 {
@@ -25,16 +29,19 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
         private readonly IContentManager _contentManager;
         private readonly IServiceProvider _serviceProvider;
         private readonly ILiquidTemplateManager _liquidTemplatemanager;
+        private readonly ISiteService _siteService;
 
         public TwitterMetaPartDisplay(
             IContentManager contentManager,
             IServiceProvider serviceProvider,
-            ILiquidTemplateManager liquidTemplateManager
+            ILiquidTemplateManager liquidTemplateManager,
+            ISiteService siteService
             )
         {
             _contentManager = contentManager;
             _serviceProvider = serviceProvider;
             _liquidTemplatemanager = liquidTemplateManager;
+            _siteService = siteService;
         }
 
         public override IDisplayResult Display(TwitterMetaPart part)
@@ -53,12 +60,16 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
             await updater.TryUpdateModelAsync(model, Prefix,
                 t => t.Title,
                 t => t.Description,
-                t => t.ImageAlt);
+                t => t.ImageAlt,
+                t => t.GoogleSchema);
             return Edit(model);
         }
 
         private async Task BuildDisplayViewModelAsync(TwitterMetaPartViewModel model, TwitterMetaPart part)
         {
+            var siteSettings = await _siteService.GetSiteSettingsAsync();
+            var twitterMetaSettings = siteSettings.As<TwitterMetaSettings>();
+
             var templateContext = new TemplateContext();
             templateContext.SetValue("ContentItem", part.ContentItem);
             templateContext.MemberAccessStrategy.Register<TwitterMetaPartViewModel>();
@@ -73,7 +84,15 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
                 await _liquidTemplatemanager.RenderAsync(part.Description, writer, NullEncoder.Default, templateContext);
                 model.Description = writer.ToString();
             }
+
+            //var contentItemMetadata = await _contentManager.PopulateAspectAsync<ContentItemMetadata>(part.ContentItem);
+            
+            //var t = new StringValue(((IUrlHelper)urlHelper).RouteUrl(contentItemMetadata.DisplayRouteValues));
             model.TwitterMetaPart = part;
+
+            model.TwitterMetaSettings = twitterMetaSettings;
+
+            model.GoogleSchema = part.GoogleSchema;
         }
 
         private void BuildEditViewModel(TwitterMetaPartViewModel model, TwitterMetaPart part)
@@ -82,6 +101,7 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
             model.Description = part.Description;
             //model.ImageUrl = part.ImageUrl;
             model.ImageAlt = part.ImageAlt;
+            model.GoogleSchema = part.GoogleSchema;
             model.TwitterMetaPart = part;
         }
     }

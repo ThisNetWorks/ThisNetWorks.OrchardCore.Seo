@@ -13,8 +13,6 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.ViewModels
 
         public string TwitterSite { get; set; }
 
-        public string TwitterUrl { get; set; }
-
         public string DefaultImageUrl { get; set; }
 
         public string DefaultImageAlt { get; set; }

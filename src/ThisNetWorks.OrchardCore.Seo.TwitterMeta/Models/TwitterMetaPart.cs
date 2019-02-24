@@ -17,6 +17,8 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Models
         
         public string ImageAlt { get; set; }
 
+        public string GoogleSchema { get; set; }
+
         //TODO
         ////player
         //public string PlayerUrl { get; set; }

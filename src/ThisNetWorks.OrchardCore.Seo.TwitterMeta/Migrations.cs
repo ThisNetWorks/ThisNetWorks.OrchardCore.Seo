@@ -28,15 +28,28 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta
 
         public int UpdateFrom1()
         {
+            //_contentDefinitionManager.AlterPartDefinition("TwitterMetaPart", builder => builder
+            //    .WithField("TwitterUrl", field => field
+            //    .OfType("MediaField")
+            //    .WithDisplayName("Twitter Image")
+            //        .WithSetting("MediaField.Hint", "Select a twitter image")
+            //        .WithSetting("MediaField.Required", "True")
+            //        .WithSetting("MediaField.Multiple", "False")));
+
+            return 2;
+        }
+
+        public int UpdateFrom2()
+        {
             _contentDefinitionManager.AlterPartDefinition("TwitterMetaPart", builder => builder
-                .WithField("TwitterUrl", field => field
+                .WithField("TwitterImage", field => field
                 .OfType("MediaField")
                 .WithDisplayName("Twitter Image")
                     .WithSetting("MediaField.Hint", "Select a twitter image")
                     .WithSetting("MediaField.Required", "True")
                     .WithSetting("MediaField.Multiple", "False")));
 
-            return 2;
+            return 3;
         }
     }
 }

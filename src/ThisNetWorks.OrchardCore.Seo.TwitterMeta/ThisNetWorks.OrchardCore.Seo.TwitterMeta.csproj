@@ -26,6 +26,7 @@
     <ProjectReference Include="..\..\..\OrchardCore\OrchardCore.Liquid.Abstractions\OrchardCore.Liquid.Abstractions.csproj" />
     <ProjectReference Include="..\..\..\OrchardCore\OrchardCore.Module.Targets\OrchardCore.Module.Targets.csproj" />
     <ProjectReference Include="..\..\..\OrchardCore\OrchardCore.ResourceManagement.Abstractions\OrchardCore.ResourceManagement.Abstractions.csproj" />
+    <ProjectReference Include="..\ThisNetWorks.OrchardCore.Seo.Meta\ThisNetWorks.OrchardCore.Seo.Meta.csproj" />
   </ItemGroup>
   <Import Project="..\..\..\OrchardCore\OrchardCore.Module.Targets\OrchardCore.Module.Targets.targets" />
 </Project>
