@@ -1,0 +1,30 @@
+@model TwitterMetaSettingsViewModel
+
+<fieldset>
+    <div class="form-group" asp-validation-class-for="TwitterCreator">
+        <label asp-for="TwitterCreator">@T["Twitter Creator"] </label>
+        <input asp-for="TwitterCreator" class="form-control content-preview-text" />
+        <span class="hint">@T["Twitter creator"]</span>
+    </div>
+</fieldset>
+<fieldset>
+    <div class="form-group" asp-validation-class-for="TwitterSite">
+        <label asp-for="TwitterSite">@T["Twitter Site"] </label>
+        <input asp-for="TwitterSite" class="form-control content-preview-text" />
+        <span class="hint">@T["Twitter Site"]</span>
+    </div>
+</fieldset>
+<fieldset>
+    <div class="form-group" asp-validation-class-for="DefaultImageUrl">
+        <label asp-for="DefaultImageUrl">@T["Default image url"] </label>
+        <input asp-for="DefaultImageUrl" class="form-control content-preview-text" />
+        <span class="hint">@T["Default Image url"]</span>
+    </div>
+</fieldset>
+<fieldset>
+    <div class="form-group" asp-validation-class-for="DefaultImageAlt">
+        <label asp-for="DefaultImageAlt">@T["Default Image Alt"] </label>
+        <input asp-for="DefaultImageAlt" class="form-control content-preview-text" />
+        <span class="hint">@T["Default Image Alt"]</span>
+    </div>
+</fieldset>

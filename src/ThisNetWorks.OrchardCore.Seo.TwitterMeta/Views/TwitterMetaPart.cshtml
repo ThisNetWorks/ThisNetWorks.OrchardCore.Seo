@@ -1,0 +1,147 @@
+@model ThisNetWorks.OrchardCore.Seo.TwitterMeta.ViewModels.TwitterMetaPartViewModel
+@using ThisNetWorks.OrchardCore.Seo.Meta.Models
+@using OrchardCore.ContentManagement
+@using OrchardCore.Mvc.Core.Utilities
+@inject OrchardCore.ContentManagement.IContentManager ContentManager
+@{
+    @* do twitter tags first, then og tags from same dataset (MVP) - just so they line up together *@
+    @*setup some shared variables *@
+string title = String.Empty;
+if (!String.IsNullOrEmpty(Model.Title))
+{
+    title = Model.Title;
+}
+else
+{
+    title = Model.TwitterMetaPart.ContentItem.DisplayText;
+}
+string description = String.Empty;
+if (!String.IsNullOrEmpty(Model.Description))
+{
+    description = Model.Description;
+}
+else
+{
+    SeoMetaPart seoMetaPart = Model.TwitterMetaPart.ContentItem.As<SeoMetaPart>();
+    if (seoMetaPart != null && !String.IsNullOrEmpty(seoMetaPart.MetaDescription))
+    {
+        description = seoMetaPart.MetaDescription;
+    }
+    else
+    {
+        description = Model.TwitterMetaPart.ContentItem.DisplayText;
+    }
+}
+var contentItemMetadata = await ContentManager.PopulateAspectAsync<ContentItemMetadata>(Model.TwitterMetaPart.ContentItem);
+
+var relativeUrl = Url.RouteUrl(contentItemMetadata.DisplayRouteValues);
+var absoluteUrl = Url.ToAbsoluteUrl(relativeUrl);
+
+string imageAbs = String.Empty;
+if (Model.TwitterMetaPart.Content.TwitterImage.Paths.HasValues)
+{
+    var image = (string)Model.TwitterMetaPart.Content.TwitterImage.Paths[0];
+    @* quick hack as isn't including mediapath *@
+    if (!image.Contains("media"))
+    {
+        image = "media/" + image;
+    }
+    if (image.Substring(0, 1) != "/")
+    {
+        image = "/" + image;
+    }
+    imageAbs = Url.ToAbsoluteUrl(image);
+}
+else if (!String.IsNullOrEmpty(Model.TwitterMetaSettings.DefaultImageUrl))
+{
+    var image = Model.TwitterMetaSettings.DefaultImageUrl;
+    if (image.Substring(0, 1) != "/")
+    {
+        image = "/" + image;
+    }
+    imageAbs = Url.ToAbsoluteUrl(image);
+}
+string imageAlt = String.Empty;
+if (!String.IsNullOrEmpty(Model.ImageAlt))
+{
+    imageAlt = Model.ImageAlt;
+}
+else if (!String.IsNullOrEmpty(Model.TwitterMetaSettings.DefaultImageAlt))
+{
+    imageAlt = Model.TwitterMetaSettings.DefaultImageAlt;
+}
+    @* then display twitter *@
+    <meta asp-name="twitter:card" content="summary" />
+
+    if (!String.IsNullOrEmpty(Model.TwitterMetaSettings.TwitterSite))
+    {
+        <meta asp-name="twitter:site" content="@Model.TwitterMetaSettings.TwitterSite" />
+    }
+
+    if (!String.IsNullOrEmpty(Model.TwitterMetaSettings.TwitterCreator))
+    {
+        <meta asp-name="twitter:creator" content="@Model.TwitterMetaSettings.TwitterCreator" />
+    }
+
+    if (!String.IsNullOrEmpty(title))
+    {
+        <meta asp-name="twitter:title" content="@title" />
+    }
+
+    if (!String.IsNullOrEmpty(description))
+    {
+        <meta asp-name="twitter:description" content="@description" />
+    }
+
+    if (!String.IsNullOrEmpty(absoluteUrl))
+    {
+        <meta asp-name="twitter:url" content="@absoluteUrl" />
+    }
+
+    if (!String.IsNullOrEmpty(imageAbs))
+    {
+        <meta asp-name="twitter:image" content="@imageAbs" />
+    }
+
+    if (!String.IsNullOrEmpty(imageAlt))
+    {
+        <meta asp-name="twitter:image:alt" content="@imageAlt" />
+    }
+
+    @*opengraph*@
+    <meta asp-property="og:type" content="website" />
+    if (!String.IsNullOrEmpty(title))
+    {
+        <meta asp-property="og:title" content="@title" />
+    }
+
+    if (!String.IsNullOrEmpty(description))
+    {
+        <meta asp-property="og:description" content="@description" />
+    }
+
+    if (!String.IsNullOrEmpty(absoluteUrl))
+    {
+        <meta asp-property="og:url" content="@absoluteUrl" />
+    }
+
+    if (!String.IsNullOrEmpty(imageAbs))
+    {
+        <meta asp-property="og:image" content="@imageAbs" />
+    }
+
+    if (!String.IsNullOrEmpty(imageAlt))
+    {
+        <meta asp-property="og:image:alt" content="@imageAlt" />
+    }
+    @*cool despite this getting parse to type="application/ld&#x2B;json" google schema markup tester will parse it correctly.
+        Definitely an easy way to get some schema in, build it with the google tool, adn cut and paste it into field*@
+    if (!String.IsNullOrEmpty(Model.GoogleSchema))
+    {
+        <script type="application/ld+json" at="Head">
+            @Html.Raw(@Model.GoogleSchema)
+        </script>
+    }
+
+
+}

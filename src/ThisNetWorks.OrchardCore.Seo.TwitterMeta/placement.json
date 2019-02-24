@@ -1,0 +1,14 @@
+/*
+  Available display shapes:
+      Parts_Contents_Publish
+      Parts_Contents_Publish_Summary
+      Parts_Contents_Publish_SummaryAdmin
+*/
+
+{
+  "MediaField": [
+    {
+      "place": "-"
+    }
+  ]
+}
