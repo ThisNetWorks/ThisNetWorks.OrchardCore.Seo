@@ -8,49 +8,49 @@
 @{
     @* do twitter tags first, then og tags from same dataset (MVP) - just so they line up together *@
     @*setup some shared variables *@
-    string title = String.Empty;
-    if (!String.IsNullOrEmpty(Model.Title))
-    {
-        title = Model.Title;
-    }
-    else
-    {
-        title = Model.TwitterMetaPart.ContentItem.DisplayText;
-    }
-    string description = String.Empty;
-    if (!String.IsNullOrEmpty(Model.Description))
-    {
-        description = Model.Description;
-    }
-    else
-    {
-        SeoMetaPart seoMetaPart = Model.TwitterMetaPart.ContentItem.As<SeoMetaPart>();
-        if (seoMetaPart != null && !String.IsNullOrEmpty(seoMetaPart.MetaDescription))
-        {
-            description = seoMetaPart.MetaDescription;
-        }
-        else
-        {
-            description = Model.TwitterMetaPart.ContentItem.DisplayText;
-        }
-    }
-    string absoluteUrl = String.Empty;
-    var autoroutePart = Model.TwitterMetaPart.ContentItem.As<AutoroutePart>();
-    if (autoroutePart != null && autoroutePart.SetHomepage)
-    {
-        absoluteUrl = Url.GetBaseUrl() + "/";
-    }
-    else
-    {
-        var contentItemMetadata = await ContentManager.PopulateAspectAsync<ContentItemMetadata>(Model.TwitterMetaPart.ContentItem);
+string title = String.Empty;
+if (!String.IsNullOrEmpty(Model.Title))
+{
+    title = Model.Title;
+}
+else
+{
+    title = Model.TwitterMetaPart.ContentItem.DisplayText;
+}
+//string description = String.Empty;
+//if (!String.IsNullOrEmpty(Model.Description))
+//{
+//    description = Model.Description;
+//}
+//else
+//{
+//    SeoMetaPart seoMetaPart = Model.TwitterMetaPart.ContentItem.As<SeoMetaPart>();
+//    if (seoMetaPart != null && !String.IsNullOrEmpty(seoMetaPart.MetaDescription))
+//    {
+//        description = seoMetaPart.MetaDescription;
+//    }
+//    else
+//    {
+//        description = Model.TwitterMetaPart.ContentItem.DisplayText;
+//    }
+//}
+string absoluteUrl = String.Empty;
+var autoroutePart = Model.TwitterMetaPart.ContentItem.As<AutoroutePart>();
+if (autoroutePart != null && autoroutePart.SetHomepage)
+{
+    absoluteUrl = Url.GetBaseUrl() + "/";
+}
+else
+{
+    var contentItemMetadata = await ContentManager.PopulateAspectAsync<ContentItemMetadata>(Model.TwitterMetaPart.ContentItem);
 
-        var relativeUrl = Url.RouteUrl(contentItemMetadata.DisplayRouteValues);
-        absoluteUrl = Url.ToAbsoluteUrl(relativeUrl);
-    }
-    string imageAbs = String.Empty;
-    if (Model.TwitterMetaPart.Content.TwitterImage.Paths.HasValues)
-    {
-        var image = (string)Model.TwitterMetaPart.Content.TwitterImage.Paths[0];
+    var relativeUrl = Url.RouteUrl(contentItemMetadata.DisplayRouteValues);
+    absoluteUrl = Url.ToAbsoluteUrl(relativeUrl);
+}
+string imageAbs = String.Empty;
+if (Model.TwitterMetaPart.Content.TwitterImage.Paths.HasValues)
+{
+    var image = (string)Model.TwitterMetaPart.Content.TwitterImage.Paths[0];
         @* quick hack as isn't including mediapath *@
         if (!image.Contains("media"))
         {
@@ -98,9 +98,9 @@
         <meta asp-name="twitter:title" content="@title" />
     }
 
-    if (!String.IsNullOrEmpty(description))
+    if (!String.IsNullOrEmpty(Model.Description))
     {
-        <meta asp-name="twitter:description" content="@description" />
+        <meta asp-name="twitter:description" content="@Model.Description" />
     }
 
     if (!String.IsNullOrEmpty(absoluteUrl))
@@ -125,9 +125,9 @@
         <meta asp-property="og:title" content="@title" />
     }
 
-    if (!String.IsNullOrEmpty(description))
+    if (!String.IsNullOrEmpty(Model.Description))
     {
-        <meta asp-property="og:description" content="@description" />
+        <meta asp-property="og:description" content="@Model.Description" />
     }
 
     if (!String.IsNullOrEmpty(absoluteUrl))

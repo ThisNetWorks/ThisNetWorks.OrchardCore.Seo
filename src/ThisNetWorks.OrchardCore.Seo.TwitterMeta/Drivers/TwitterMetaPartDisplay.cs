@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using OrchardCore.Settings;
 using OrchardCore.Entities;
+using ThisNetWorks.OrchardCore.Seo.Meta.Models;
 
 namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
 {
@@ -79,14 +80,32 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
                 await _liquidTemplatemanager.RenderAsync(part.Title, writer, NullEncoder.Default, templateContext);
                 model.Title = writer.ToString();
             }
-            using (var writer = new StringWriter())
+            if (!String.IsNullOrEmpty(part.Description))
             {
-                await _liquidTemplatemanager.RenderAsync(part.Description, writer, NullEncoder.Default, templateContext);
-                model.Description = writer.ToString();
+                using (var writer = new StringWriter())
+                {
+                    await _liquidTemplatemanager.RenderAsync(part.Description, writer, NullEncoder.Default, templateContext);
+                    model.Description = writer.ToString();
+                }
             }
-
+            else
+            {
+                SeoMetaPart seoMetaPart = part.ContentItem.As<SeoMetaPart>();
+                if (seoMetaPart != null && !String.IsNullOrEmpty(seoMetaPart.MetaDescription))
+                {
+                    using (var writer = new StringWriter())
+                    {
+                        await _liquidTemplatemanager.RenderAsync(seoMetaPart.MetaDescription, writer, NullEncoder.Default, templateContext);
+                        model.Description = writer.ToString();
+                    }
+                }
+                else
+                {
+                    model.Description = part.ContentItem.DisplayText;
+                }
+            }
             //var contentItemMetadata = await _contentManager.PopulateAspectAsync<ContentItemMetadata>(part.ContentItem);
-            
+
             //var t = new StringValue(((IUrlHelper)urlHelper).RouteUrl(contentItemMetadata.DisplayRouteValues));
             model.TwitterMetaPart = part;
 
