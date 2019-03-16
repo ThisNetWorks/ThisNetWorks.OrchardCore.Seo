@@ -1,13 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <Import Project="..\..\..\OrchardCore\OrchardCore.Module.Targets\OrchardCore.Module.Targets.props" />
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Views\_ViewImports.cshtml" />
-  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Views\SitemapPartSettings.Edit.cshtml">
