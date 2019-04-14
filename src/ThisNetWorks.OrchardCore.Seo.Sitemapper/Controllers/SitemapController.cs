@@ -47,7 +47,7 @@ namespace ThisNetWorks.OrchardCore.Seo.Sitemapper.Controllers
                 ser.Serialize(outStream, sitemap, ns);
 
                 //return Content("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9></urlset>\">", MediaTypeNames.Application.Xml);
-                return Content(outStream.ToString(), MediaTypeNames.Application.Xml);
+                return Content(outStream.ToString(), "application/xml");
             }
         }
 

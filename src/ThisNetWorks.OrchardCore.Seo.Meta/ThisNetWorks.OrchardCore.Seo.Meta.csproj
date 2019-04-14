@@ -2,7 +2,7 @@
 
   <Import Project="..\..\..\OrchardCore\OrchardCore.Module.Targets\OrchardCore.Module.Targets.props" />
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\SeoMetaPart.cshtml">
@@ -17,6 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+
   </ItemGroup>
 
   <ItemGroup>
