@@ -1,37 +1,23 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <Import Project="..\..\..\OrchardCore\OrchardCore.Module.Targets\OrchardCore.Module.Targets.props" />
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
 
-  <ItemGroup>
-    <EmbeddedResource Include="Views\SitemapPartSettings.Edit.cshtml">
-      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\SitemapPart.Edit.cshtml">
-      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\_ViewImports.cshtml">
-      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc"  />
 
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\OrchardCore.Modules\OrchardCore.Autoroute\OrchardCore.Autoroute.csproj" />
-    <ProjectReference Include="..\..\..\OrchardCore\OrchardCore.ContentManagement.Abstractions\OrchardCore.ContentManagement.Abstractions.csproj" />
-    <ProjectReference Include="..\..\..\OrchardCore\OrchardCore.ContentManagement.Display\OrchardCore.ContentManagement.Display.csproj" />
-    <ProjectReference Include="..\..\..\OrchardCore\OrchardCore.ContentTypes.Abstractions\OrchardCore.ContentTypes.Abstractions.csproj" />
-    <ProjectReference Include="..\..\..\OrchardCore\OrchardCore.Data.Abstractions\OrchardCore.Data.Abstractions.csproj" />
-    <ProjectReference Include="..\..\..\OrchardCore\OrchardCore.Module.Targets\OrchardCore.Module.Targets.csproj" />
-    <ProjectReference Include="..\ThisNetWorks.OrchardCore.Seo.Sitemapper.Abstractions\ThisNetWorks.OrchardCore.Seo.Sitemapper.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\..\OrchardCore.Modules\OrchardCore.Autoroute\OrchardCore.Autoroute.csproj" />
+    <ProjectReference Include="..\..\..\..\OrchardCore\OrchardCore.ContentManagement.Abstractions\OrchardCore.ContentManagement.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\..\OrchardCore\OrchardCore.ContentManagement.Display\OrchardCore.ContentManagement.Display.csproj" />
+    <ProjectReference Include="..\..\..\..\OrchardCore\OrchardCore.ContentTypes.Abstractions\OrchardCore.ContentTypes.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\..\OrchardCore\OrchardCore.Data.Abstractions\OrchardCore.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\..\OrchardCore\OrchardCore.Module.Targets\OrchardCore.Module.Targets.csproj" />
   </ItemGroup>
 
-  <Import Project="..\..\..\OrchardCore\OrchardCore.Module.Targets\OrchardCore.Module.Targets.targets" />
 </Project>
