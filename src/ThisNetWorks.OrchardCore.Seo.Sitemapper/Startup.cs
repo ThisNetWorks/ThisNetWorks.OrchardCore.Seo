@@ -31,12 +31,12 @@ namespace ThisNetWorks.OrchardCore.Seo.Sitemapper
             services.AddScoped<ISitemapManager, DefaultSitemapManager>();
         }
 
-        public override void Configure(IApplicationBuilder app, IRouteBuilder routes, IServiceProvider serviceProvider)
+        public override void Configure(IApplicationBuilder app, IEndpointRouteBuilder routes, IServiceProvider serviceProvider)
         {
-            routes.MapAreaRoute(
+            routes.MapAreaControllerRoute(
                    name: "sitemap.xml",
                    areaName: "ThisNetWorks.OrchardCore.Seo.Sitemapper",
-                   template: "sitemap.xml",
+                   pattern: "sitemap.xml",
                    defaults: new { controller = "Sitemap", action = "Index" }
                );
         }

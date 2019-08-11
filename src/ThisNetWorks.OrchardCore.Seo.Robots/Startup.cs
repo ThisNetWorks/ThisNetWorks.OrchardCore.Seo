@@ -22,12 +22,12 @@ namespace ThisNetWorks.OrchardCore.Seo.Robots
             services.AddScoped<IPermissionProvider, Permissions>();
         }
 
-        public override void Configure(IApplicationBuilder app, IRouteBuilder routes, IServiceProvider serviceProvider)
+        public override void Configure(IApplicationBuilder app, IEndpointRouteBuilder routes, IServiceProvider serviceProvider)
         {
-            routes.MapAreaRoute(
+            routes.MapAreaControllerRoute(
                    name: "Robots.txt",
                    areaName: "ThisNetWorks.OrchardCore.Seo.Robots",
-                   template: "robots.txt",
+                   pattern: "robots.txt",
                    defaults: new { controller = "Robots", action = "Index" }
                );
         }
