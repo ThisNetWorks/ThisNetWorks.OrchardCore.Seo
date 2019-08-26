@@ -1,7 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
-using OrchardCore.Modules;
+using System.Linq;
+using System.Threading.Tasks;
 using OrchardCore.Security.Permissions;
 
 namespace ThisNetWorks.OrchardCore.Seo.Robots
@@ -10,9 +9,9 @@ namespace ThisNetWorks.OrchardCore.Seo.Robots
     {
         public static readonly Permission ManageRobots = new Permission("ManageRobots", "Manage robots.txt");
 
-        public IEnumerable<Permission> GetPermissions()
+        public Task<IEnumerable<Permission>> GetPermissionsAsync()
         {
-            return new[] { ManageRobots };
+            return Task.FromResult(new[] { ManageRobots }.AsEnumerable());
         }
 
         public IEnumerable<PermissionStereotype> GetDefaultStereotypes()
@@ -26,5 +25,6 @@ namespace ThisNetWorks.OrchardCore.Seo.Robots
                 }
             };
         }
+
     }
 }
