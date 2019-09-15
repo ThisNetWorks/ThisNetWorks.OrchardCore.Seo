@@ -1,22 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
-using OrchardCore.Autoroute.Model;
+using OrchardCore.Autoroute.Models;
 using OrchardCore.ContentManagement;
+using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Records;
+using OrchardCore.Mvc.Core.Utilities;
 using ThisNetWorks.OrchardCore.Seo.Sitemapper.Models;
 using YesSql;
-using OrchardCore.Mvc.Core.Utilities;
-using OrchardCore.ContentManagement.Metadata;
-using System.Linq;
 
 namespace ThisNetWorks.OrchardCore.Seo.Sitemapper.Providers
 {
@@ -49,11 +47,11 @@ namespace ThisNetWorks.OrchardCore.Seo.Sitemapper.Providers
                 .Query<ContentItem, AutoroutePartIndex>(x => x.Published)
                 .ListAsync();
 
-            foreach(var item in items)
+            foreach (var item in items)
             {
                 var autoroutePart = item.As<AutoroutePart>();
                 var sitemapPart = item.As<SitemapPart>();
-                
+
                 var exclude = sitemapPart != null ? sitemapPart.Exclude : false;
                 if (!exclude)
                 {
@@ -79,7 +77,7 @@ namespace ThisNetWorks.OrchardCore.Seo.Sitemapper.Providers
                     ChangeFrequency = changeFrequency.ToString().ToLower(),
                     Priority = priority,
                     LastModified = item.ModifiedUtc.GetValueOrDefault().ToString("yyyy-MM-ddTHH:mm:sszzz")
-            };
+                };
                 sitemapUrlItems.Add(urlItem);
             }
             return sitemapUrlItems;
