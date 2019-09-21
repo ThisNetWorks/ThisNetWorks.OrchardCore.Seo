@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
-using OrchardCore.ContentManagement.Handlers;
 using OrchardCore.ContentTypes.Editors;
 using OrchardCore.Data.Migration;
 using OrchardCore.Modules;
@@ -24,7 +21,7 @@ namespace ThisNetWorks.OrchardCore.Seo.Sitemapper
             services.AddScoped<IDataMigration, Migrations>();
 
             services.AddScoped<IContentPartDisplayDriver, SitemapPartDisplay>();
-            services.AddSingleton<ContentPart, SitemapPart>();
+            services.AddContentPart<SitemapPart>();
             services.AddScoped<IContentTypePartDefinitionDisplayDriver, SitemapPartSettingsDisplayDriver>();
 
             services.AddScoped<ISitemapProvider, AutorouteSitemapProvider>();
