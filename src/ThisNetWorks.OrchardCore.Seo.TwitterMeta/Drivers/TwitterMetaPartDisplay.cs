@@ -47,7 +47,7 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
 
         public override IDisplayResult Display(TwitterMetaPart part)
         {
-            return Initialize<TwitterMetaPartViewModel>("TwitterMetaPart", m => BuildDisplayViewModelAsync(m, part))
+            return Initialize<TwitterMetaPartViewModel>("TwitterMetaPart", async m => await BuildDisplayViewModelAsync(m, part))
                     .Location("Detail", "Content:6");
         }
 

@@ -34,7 +34,7 @@ namespace ThisNetWorks.OrchardCore.Seo.Meta.Drivers
 
         public override IDisplayResult Display(SeoMetaPart part)
         {
-            return Initialize<SeoMetaPartViewModel>("SeoMetaPart", m => BuildDisplayViewModelAsync(m, part))
+            return Initialize<SeoMetaPartViewModel>("SeoMetaPart", async m => await BuildDisplayViewModelAsync(m, part))
                 .Location("Detail", "Content:5");
         }
 
