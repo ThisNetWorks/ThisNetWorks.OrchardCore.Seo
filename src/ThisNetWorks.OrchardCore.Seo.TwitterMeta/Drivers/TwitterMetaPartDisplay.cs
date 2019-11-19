@@ -54,7 +54,7 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta.Drivers
         public override IDisplayResult Edit(TwitterMetaPart part, BuildPartEditorContext context)
         {
             return Initialize<TwitterMetaPartViewModel>("TwitterMetaPart", m => BuildEditViewModel(m, part))
-           .Location("Detail", "Content:6");
+           .Location("Parts#Seo:5");
         }
         public override async Task<IDisplayResult> UpdateAsync(TwitterMetaPart model, IUpdateModel updater)
         {

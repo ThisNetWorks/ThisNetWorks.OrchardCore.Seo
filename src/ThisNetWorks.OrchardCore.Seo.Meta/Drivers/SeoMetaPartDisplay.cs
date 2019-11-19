@@ -42,7 +42,8 @@ namespace ThisNetWorks.OrchardCore.Seo.Meta.Drivers
 
         public override IDisplayResult Edit(SeoMetaPart sitemapPart)
         {
-            return Initialize<SeoMetaPartViewModel>("SeoMetaPart_Edit", m => BuildEditViewModel(m, sitemapPart));
+            return Initialize<SeoMetaPartViewModel>("SeoMetaPart_Edit", m => BuildEditViewModel(m, sitemapPart))
+                .Location("Parts#Seo:5");
         }
         
         public override async Task<IDisplayResult> UpdateAsync(SeoMetaPart model, IUpdateModel updater)

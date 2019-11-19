@@ -36,7 +36,7 @@ namespace ThisNetWorks.OrchardCore.Seo.Sitemapper.Drivers
             return Initialize<SitemapPartViewModel>("SitemapPart_Edit", m =>
             {
                 BuildViewModel(m, sitemapPart);
-            });
+            }).Location("Parts#Seo:5");
         }
 
         private SitemapPartSettings GetSettings(SitemapPart sitemapPart)
