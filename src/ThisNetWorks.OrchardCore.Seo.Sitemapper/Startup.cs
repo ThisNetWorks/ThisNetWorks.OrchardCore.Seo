@@ -20,8 +20,8 @@ namespace ThisNetWorks.OrchardCore.Seo.Sitemapper
         {
             services.AddScoped<IDataMigration, Migrations>();
 
-            services.AddScoped<IContentPartDisplayDriver, SitemapPartDisplay>();
-            services.AddContentPart<SitemapPart>();
+            services.AddContentPart<SitemapPart>()
+                .UseDisplayDriver<SitemapPartDisplay>();
             services.AddScoped<IContentTypePartDefinitionDisplayDriver, SitemapPartSettingsDisplayDriver>();
 
             services.AddScoped<ISitemapProvider, AutorouteSitemapProvider>();

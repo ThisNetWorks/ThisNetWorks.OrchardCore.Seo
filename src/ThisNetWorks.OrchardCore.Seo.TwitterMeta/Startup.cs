@@ -18,8 +18,9 @@ namespace ThisNetWorks.OrchardCore.Seo.TwitterMeta
             services.AddScoped<IDataMigration, Migrations>();
 
             services.AddScoped<INavigationProvider, AdminMenu>();
-            services.AddScoped<IContentPartDisplayDriver, TwitterMetaPartDisplay>();
-            services.AddContentPart<TwitterMetaPart>();
+            services.AddContentPart<TwitterMetaPart>()
+                .UseDisplayDriver<TwitterMetaPartDisplay>();
+
             services.AddScoped<IDisplayDriver<ISite>, TwitterMetaSettingsDisplayDriver>();
         }
 

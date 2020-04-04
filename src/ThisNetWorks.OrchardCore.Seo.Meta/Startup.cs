@@ -16,8 +16,8 @@ namespace ThisNetWorks.OrchardCore.Seo.Meta
         {
             services.AddScoped<IDataMigration, Migrations>();
 
-            services.AddScoped<IContentPartDisplayDriver, SeoMetaPartDisplay>();
-            services.AddContentPart<SeoMetaPart>();
+            services.AddContentPart<SeoMetaPart>()
+                .UseDisplayDriver<SeoMetaPartDisplay>();
 
             services.RemoveAll<IPageTitleBuilder>();
 

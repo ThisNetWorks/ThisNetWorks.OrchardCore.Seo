@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.AspNetCore.Html;
 using OrchardCore.DisplayManagement;
 using OrchardCore.DisplayManagement.Title;
-using OrchardCore.UI;
+using OrchardCore.DisplayManagement.Zones;
 
 namespace ThisNetWorks.OrchardCore.Seo.Meta
 {
